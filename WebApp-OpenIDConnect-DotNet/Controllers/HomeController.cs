@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Identity.Client;
-using System.Security.Claims;
-using WebApp_OpenIDConnect_DotNet.Models;
-using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Net;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using WebApp_OpenIDConnect_DotNet.Models;
 
 namespace WebApp_OpenIDConnect_DotNet.Controllers
 {
@@ -87,7 +86,7 @@ namespace WebApp_OpenIDConnect_DotNet.Controllers
                 responseString = $"Error calling API: {ex.Message}";
             }
 
-            ViewData["Payload"] = $"{responseString}";            
+            ViewData["Payload"] = $"{responseString}";
             return View();
         }
 

@@ -40,7 +40,7 @@ namespace WebApp_OpenIDConnect_DotNet
 
             // Add framework services.
             services.AddMvc();
-            
+
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -50,7 +50,7 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.Cookie.IsEssential = true;
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +71,7 @@ namespace WebApp_OpenIDConnect_DotNet
             }
 
             app.UseStaticFiles();
-            
+
             app.UseSession();
 
             app.UseAuthentication();
