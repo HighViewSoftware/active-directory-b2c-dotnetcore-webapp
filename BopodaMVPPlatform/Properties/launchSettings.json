@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApp-OpenIDConnect-DotNet": {
+    "BopodaMVPPlatform": {
       "commandName": "Project"
     }
   }

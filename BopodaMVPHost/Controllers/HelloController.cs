@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
 
@@ -6,6 +7,7 @@ namespace BopodaMVPHost.Controllers
 {
     public class HelloController : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             var id = User.Claims.SingleOrDefault(t => t.Type == ClaimTypes.NameIdentifier)?.Value;
