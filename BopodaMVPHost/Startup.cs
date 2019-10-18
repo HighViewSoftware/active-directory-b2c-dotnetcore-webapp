@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace BopodaMVPHost
 {
@@ -25,21 +24,12 @@ namespace BopodaMVPHost
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(sharedOptions =>
-            {
-                sharedOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+            services.AddAuthentication(options => options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => _configuration.Bind("Authentication:AzureAdB2C", options));
 
-            services.AddControllersWithViews();
+            services.AddControllers();
 
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromHours(1);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,8 +42,6 @@ namespace BopodaMVPHost
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseStaticFiles();
-            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseRouting();
