@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 
 namespace WebApp_OpenIDConnect_DotNet
@@ -18,7 +19,6 @@ namespace WebApp_OpenIDConnect_DotNet
             _configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -29,10 +29,10 @@ namespace WebApp_OpenIDConnect_DotNet
                 sharedOptions.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddAzureAdB2C(options => Configuration.Bind("Authentication:AzureAdB2C", options))
+            .AddAzureAdB2C(options => _configuration.Bind("Authentication:AzureAdB2C", options))
             .AddCookie();
 
-            services.AddMvc();
+            services.AddControllersWithViews();
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -43,7 +43,7 @@ namespace WebApp_OpenIDConnect_DotNet
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

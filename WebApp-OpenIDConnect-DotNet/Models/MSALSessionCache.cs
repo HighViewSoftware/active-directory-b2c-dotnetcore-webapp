@@ -1,8 +1,7 @@
-using Microsoft.Identity.Client;
-
-using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Identity.Client;
+using System.Threading;
 
 namespace WebApp_OpenIDConnect_DotNet.Models
 {
@@ -48,7 +47,7 @@ namespace WebApp_OpenIDConnect_DotNet.Models
         {
             SessionLock.EnterReadLock();
             byte[] blob = httpContext.Session.Get(CacheId);
-            if(blob != null)
+            if (blob != null)
             {
                 args.TokenCache.DeserializeMsalV3(blob);
             }

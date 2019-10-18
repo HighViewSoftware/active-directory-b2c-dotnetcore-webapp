@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Identity.Client;
-using WebApp_OpenIDConnect_DotNet.Models;
 using System.Security.Claims;
-using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+using WebApp_OpenIDConnect_DotNet.Models;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -102,8 +99,6 @@ namespace WebApp_OpenIDConnect_DotNet
 
             public async Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
             {
-                // Use MSAL to swap the code for an access token
-                // Extract the code from the response notification
                 var code = context.ProtocolMessage.Code;
 
                 string signedInUserID = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value;

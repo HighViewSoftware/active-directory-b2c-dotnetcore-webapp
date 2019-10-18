@@ -1,8 +1,7 @@
-using Microsoft.Identity.Client;
-
-using System.Threading;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Identity.Client;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace WebApp_OpenIDConnect_DotNet.Models
 {
@@ -39,8 +38,8 @@ namespace WebApp_OpenIDConnect_DotNet.Models
         public void Load(TokenCacheNotificationArgs args)
         {
             SessionLock.EnterReadLock();
-            byte[] blob = staticCache.ContainsKey(cacheId) ? staticCache[cacheId] : null ;
-            if(blob != null)
+            byte[] blob = staticCache.ContainsKey(cacheId) ? staticCache[cacheId] : null;
+            if (blob != null)
             {
                 args.TokenCache.DeserializeMsalV3(blob);
             }
