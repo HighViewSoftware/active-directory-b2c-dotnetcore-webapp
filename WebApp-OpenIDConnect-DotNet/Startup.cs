@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Threading.Tasks;
 
 namespace WebApp_OpenIDConnect_DotNet
 {
@@ -31,8 +32,25 @@ namespace WebApp_OpenIDConnect_DotNet
                 sharedOptions.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
             .AddAzureAdB2C(options => _configuration.Bind("Authentication:AzureAdB2C", options))
-            .AddAzureADB2CBearer(options => _configuration.Bind("Authentication:AzureAdB2C", options))
+            //.AddAzureADB2CBearer(options => _configuration.Bind("Authentication:AzureAdB2C", options))
             .AddCookie();
+
+            services.AddAuthentication(sharedOptions =>
+            {
+                sharedOptions.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                var Instance = _configuration["Authentication:AzureAdB2C:Instance"];
+                var Tenant = _configuration["Authentication:AzureAdB2C:Tenant"];
+                var DefaultPolicy = _configuration["Authentication:AzureAdB2C:DefaultPolicy"];
+                options.Authority = $"{Instance}/{Tenant}/{DefaultPolicy}/v2.0";
+                options.Audience = _configuration["Authentication:AzureAdB2C:ClientId"];
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = AuthenticationFailed
+                };
+            });
 
             services.AddControllersWithViews();
 
@@ -43,6 +61,11 @@ namespace WebApp_OpenIDConnect_DotNet
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+        }
+
+        private Task AuthenticationFailed(Microsoft.AspNetCore.Authentication.JwtBearer.AuthenticationFailedContext arg)
+        {
+            throw new NotImplementedException();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
