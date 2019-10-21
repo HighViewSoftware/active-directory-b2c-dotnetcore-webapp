@@ -19,41 +19,22 @@
             <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
                 <li class="nav-item">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti1" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-folder"></i>
-                        <span class="nav-link-text">@Localizer["Files"]</span>
+                        <i class="fa fa-fw fa-dashboard"></i>
+                        <span class="nav-link-text">@Localizer["Dashboard"]</span>
                     </a>
                     <ul class="sidenav-second-level collapse" id="collapseMulti1">
                         <li>
-                            <a asp-controller="Dashboard" asp-action="Index">
-                                <i class="fa fa-fw fa-upload"></i>
-                                Quick upload
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="Dashboard" asp-action="ViewFiles">
-                                <i class="fa fa-fw fa-hdd-o"></i>
-                                My files
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-dashboard"></i>
-                        <span class="nav-link-text">@Localizer["Settings"]</span>
-                    </a>
-                    <ul class="sidenav-second-level collapse" id="collapseMulti2">
-                        <li>
-                            <a asp-controller="Dashboard" asp-action="Settings">
+                            <a asp-controller="Dashboard" asp-action="AllOrgs">
                                 <i class="fa fa-fw fa-sliders"></i>
-                                @Localizer["Overview"]
+                                Overview
                             </a>
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item" id="render-orgs-part"></li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti3" data-parent="#exampleAccordion">
-                        <i class="fa fa-fw fa-share"></i>
+                        <i class="fa fa-fw fa-bank"></i>
                         <span class="nav-link-text">@Localizer["Share"]</span>
                     </a>
                     <ul class="sidenav-second-level collapse" id="collapseMulti3">
@@ -149,17 +130,6 @@
         </div>
     </nav>
     <div class="content-wrapper">
-        @if (!Model.EmailConfirmed)
-        {
-            <div class="container-fluid">
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <strong>@Localizer["Your account email was not confirmed!"]</strong>
-                    <div>@Localizer["Please"] <a href="@(new AiurUrl(ServiceLocation.Account, "Account" ,"Email", new { }))">@Localizer["confirm your email"]</a> @Localizer["as soon as possible! Or you may lose access to your account in a few days!"]</div>
-                    <div>@Localizer["Without confirming your email, you won't receive any important notifications and cannot reset your password!"]</div>
-                </div>
-            </div>
-        }
         <div id="render-part">
             @RenderBody()
         </div>
@@ -173,6 +143,12 @@
         <script src="@ServiceLocation.UI/node_modules/dropify/dist/js/dropify.min.js"></script>
         <script>
             asyncLayout('#render-part');
+
+            var renderOrgs = $.get('/dashboard/render-my-orgs', function (data) {
+                $('#render-orgs-part').html(data);
+            });
+
+            renderOrgs();
         </script>
         @RenderSection("js", required: false)
     </div>

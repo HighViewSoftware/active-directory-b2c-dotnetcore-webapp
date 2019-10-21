@@ -1,0 +1,51 @@
+﻿@model BopodaMVPPlatform.Models.DashboardViewModels.AllOrgsViewModel
+@{
+    ViewData["Title"] = "All my organizations";
+}
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var org in Model.MyOrgs.OrderBy(t => t.CreateTime))
+        {
+            string icon = "";
+            switch (Math.Abs(org.Id.GetHashCode()) % 4)
+            {
+                case 0:
+                    icon = "server";
+                    break;
+                case 1:
+                    icon = "adn";
+                    break;
+                case 2:
+                    icon = "code";
+                    break;
+                case 3:
+                    icon = "random";
+                    break;
+                default:
+                    break;
+            }
+            <div class="col-12 col-sm-4 col-xl-3 mb-3">
+                <div class="card text-white bg-azure o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-@icon"></i>
+                        </div>
+                        <div class="mr-5">@Html.DisplayFor(t => org.DisplayName)</div>
+                        <div class="mr-5 small">@Html.DisplayFor(t => org.Description)</div>
+                    </div>
+                    <a class="card-footer text-white clearfix small z-1" asp-controller="Dashboard" asp-action="OrgHome" asp-route-OrgName="@org.DisplayName">
+                        <span class="float-left">@Localizer["Edit Settings"]</span>
+                        <span class="float-right">
+                            <i class="fa fa-angle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        }
+        <div class="col-12 mt-3 mb-3">
+            <div class="text-center">
+                <a asp-controller="Dashboard" asp-action="CreateOrg" class="btn btn-lg btn-primary">@Localizer["Create Organization"]</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model BopodaMVPPlatform.Models.DashboardViewModels.CreateOrgViewModel
+@{
+    ViewData["Title"] = "Create new organization";
+}
+
+<div class="container-fluid">
+    @if (!Model.ModelStateValid)
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>@Localizer["Invalid Input!"]</strong>
+            <div asp-validation-summary="ModelOnly"></div>
+        </div>
+    }
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-bar-chart"></i>
+            @Localizer["Create new organization"]
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-8 my-auto">
+                    <form asp-controller="Dashboard" asp-action="CreateOrg" method="post">
+                        <div class="form-group">
+                            <label asp-for="OrganizationName"></label>
+                            <input asp-for="OrganizationName" type="text" class="form-control" placeholder="Enter your app name...">
+                            <span asp-validation-for="OrganizationName" class="text-danger"></span>
+                            <small id="emailHelp" class="form-text text-muted">@Localizer["Your organization name will be shown when user viewing it."]</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="OrganizationDescription"></label>
+                            <textarea class="form-control" asp-for="OrganizationDescription" rows="3" placeholder="Enter a short description about your app..."></textarea>
+                            <span asp-validation-for="OrganizationDescription" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-4 pl-0">
+                            <div class="form-group">
+                                <label asp-for="OrganizationSiteName"></label>
+                                <div class="input-group mb-3">
+                                    <input asp-for="OrganizationSiteName" type="text" class="form-control">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2">.bopoda.xyz</span>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="OrganizationSiteName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" data-disable-with="Creating..." class="btn btn-primary mt-3">@Localizer["Create"]</button>
+                        <input type="reset" class="btn btn-danger mt-3" value="@Localizer["Clear"]" />
+                        <a class="btn btn-info mt-3" asp-controller="Dashboard" asp-action="AllOrgs">@Localizer["Back to list"]</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@model BopodaMVPPlatform.Models.DashboardViewModels.RenderMyOrgsViewModel
+@{
+    Layout = null;
+}
+
+<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti0" data-parent="#exampleAccordion">
+    <i class="fa fa-fw fa-folder"></i>
+    <span class="nav-link-text">
+        @Localizer["My Organizations"]
+        <span class="badge badge-info">@Model.MyOrgs.Count</span>
+    </span>
+</a>
+<ul class="sidenav-second-level collapse" id="collapseMulti0">
+    @foreach (var org in Model.MyOrgs)
+    {
+        <li>
+            <a asp-controller="Dashboard" asp-action="OrgHome" asp-route-OrgName="@org.DisplayName">
+                <i class="fa fa-fw fa-upload"></i>
+                @org.DisplayName
+            </a>
+        </li>
+    }
+</ul>

@@ -17,12 +17,10 @@ namespace BopodaMVPPlatform.Models.DashboardViewModels
         public void RootRecover(MVPUser user, string title)
         {
             UserName = "Unknown";
-            EmailConfirmed = true;
             Title = title;
             HasASite = !string.IsNullOrWhiteSpace(user.SiteName);
         }
         public string UserName { get; set; }
-        public bool EmailConfirmed { get; set; }
         public string Title { get; set; }
         public bool HasASite { get; set; }
     }

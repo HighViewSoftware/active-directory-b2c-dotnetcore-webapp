@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BopodaMVPPlatform.Models
@@ -17,6 +18,8 @@ namespace BopodaMVPPlatform.Models
         public int Id { get; set; }
         public string DisplayName { get; set; }
         public string SiteName { get; set; }
+        public string Description { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.UtcNow;
 
         [InverseProperty(nameof(UserRelationship.Organization))]
         public IEnumerable<UserRelationship> Users { get; set; }
