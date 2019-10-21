@@ -135,7 +135,7 @@ namespace BopodaMVPPlatform.Controllers
             });
         }
 
-        [Route("organizations/home/{OrgName}")]
+        [Route("organizations/{OrgName}")]
         public async Task<IActionResult> OrgHome(OrgHomeAddressModel model)
         {
             return Json(model);

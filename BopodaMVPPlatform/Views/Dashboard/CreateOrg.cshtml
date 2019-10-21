@@ -55,3 +55,13 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    window.addEventListener('load', function () {
+        $('[name=OrganizationName]').on('keyup', function () {
+            var siteName = $('[name=OrganizationName]').val().split(' ').join('-');
+            $('[name=OrganizationSiteName]').val(siteName);
+        });
+    });
+</script>

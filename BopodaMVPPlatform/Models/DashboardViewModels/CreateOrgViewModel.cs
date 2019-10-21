@@ -24,6 +24,7 @@ namespace BopodaMVPPlatform.Models.DashboardViewModels
         [Display(Name = "Organization site name")]
         [Required]
         [StringLength(maximumLength: 25, MinimumLength = 5)]
+        [ValidDomainName]
         public string OrganizationSiteName { get; set; }
 
         [Display(Name = "Organization description")]

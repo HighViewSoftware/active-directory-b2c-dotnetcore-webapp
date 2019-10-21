@@ -144,9 +144,11 @@
         <script>
             asyncLayout('#render-part');
 
-            var renderOrgs = $.get('/dashboard/render-my-orgs', function (data) {
-                $('#render-orgs-part').html(data);
-            });
+            var renderOrgs = function () {
+                $.get('/dashboard/render-my-orgs', function (data) {
+                    $('#render-orgs-part').html(data);
+                });
+            }
 
             renderOrgs();
         </script>
