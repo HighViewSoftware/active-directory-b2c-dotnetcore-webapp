@@ -1,34 +1,39 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Aiursoft.Pylon.Attributes;
+using Aiursoft.Pylon.Services;
+using BopodaMVPPlatform.Data;
+using BopodaMVPPlatform.Models.HomeViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System;
+using Microsoft.Extensions.Configuration;
 
 namespace BopodaMVPPlatform.Controllers
 {
+    [LimitPerMin]
     public class HomeController : Controller
     {
-        AzureAdB2COptions _azureAdB2COptions;
-        public HomeController(IOptions<AzureAdB2COptions> azureAdB2COptions)
+        private readonly IConfiguration _configuration;
+        private readonly ServiceLocation _serviceLocation;
+        private readonly MVPDbContext _dbContext;
+
+        public HomeController(
+            IConfiguration configuration,
+            ServiceLocation serviceLocation,
+            MVPDbContext dbContext)
         {
-            _azureAdB2COptions = azureAdB2COptions.Value;
+            _configuration = configuration;
+            _serviceLocation = serviceLocation;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexViewModel();
+            return View(model);
         }
 
-        [Authorize]
-        public IActionResult About()
+        [Route("Account/Signout")]
+        public IActionResult SignOut()
         {
-            ViewData["Message"] = String.Format("Claims available for the user {0}", (User.FindFirst("name")?.Value));
-            return View();
-        }
-
-        public IActionResult Error(string message)
-        {
-            ViewBag.Message = message;
-            return View();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

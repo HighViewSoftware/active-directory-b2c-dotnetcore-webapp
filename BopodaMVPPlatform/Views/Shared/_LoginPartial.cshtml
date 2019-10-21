@@ -1,13 +1,16 @@
-﻿@if (User.Identity.IsAuthenticated)
+@using System.Security.Principal
+@using Microsoft.Extensions.Options
+
+@if (User.Identity.IsAuthenticated)
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Session" asp-action="EditProfile">Hello @User.Identity.Name!</a></li>
-        <li><a asp-area="" asp-controller="Session" asp-action="SignOut">Sign out</a></li>
+        <li><a class="mr-5" asp-controller="Session" asp-action="EditProfile">Hello @User.Identity.Name!</a></li>
+        <li><a asp-controller="Session" asp-action="SignOut">Sign out</a></li>
     </ul>
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Session" asp-action="SignIn">Sign in</a></li>
+        <li><a asp-controller="Session" asp-action="SignIn">Sign in</a></li>
     </ul>
 }
