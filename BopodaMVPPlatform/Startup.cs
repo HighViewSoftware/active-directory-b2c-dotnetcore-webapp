@@ -23,7 +23,6 @@ namespace BopodaMVPPlatform
             _configuration = configuration;
         }
 
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(sharedOptions =>

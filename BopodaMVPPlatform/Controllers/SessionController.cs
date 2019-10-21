@@ -8,12 +8,11 @@ namespace BopodaMVPPlatform.Controllers
 {
     public class SessionController : Controller
     {
+        private readonly AzureAdB2COptions _azureAdB2COptions;
         public SessionController(IOptions<AzureAdB2COptions> b2cOptions)
         {
-            AzureAdB2COptions = b2cOptions.Value;
+            _azureAdB2COptions = b2cOptions.Value;
         }
-
-        public AzureAdB2COptions AzureAdB2COptions { get; set; }
 
         [HttpGet]
         public IActionResult SignIn()
@@ -29,7 +28,7 @@ namespace BopodaMVPPlatform.Controllers
         {
             var redirectUrl = Url.Action(nameof(HomeController.Index), "Home");
             var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
-            properties.Items[AzureAdB2COptions.PolicyAuthenticationProperty] = AzureAdB2COptions.ResetPasswordPolicyId;
+            properties.Items[AzureAdB2COptions.PolicyAuthenticationProperty] = _azureAdB2COptions.ResetPasswordPolicyId;
             return Challenge(properties, OpenIdConnectDefaults.AuthenticationScheme);
         }
 
@@ -38,28 +37,16 @@ namespace BopodaMVPPlatform.Controllers
         {
             var redirectUrl = Url.Action(nameof(HomeController.Index), "Home");
             var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
-            properties.Items[AzureAdB2COptions.PolicyAuthenticationProperty] = AzureAdB2COptions.EditProfilePolicyId;
+            properties.Items[AzureAdB2COptions.PolicyAuthenticationProperty] = _azureAdB2COptions.EditProfilePolicyId;
             return Challenge(properties, OpenIdConnectDefaults.AuthenticationScheme);
         }
 
         [HttpGet]
         public IActionResult SignOut()
         {
-            var callbackUrl = Url.Action(nameof(SignedOut), "Session", values: null, protocol: Request.Scheme);
+            var callbackUrl = Url.Action(nameof(HomeController.Index), "Home", values: null, protocol: Request.Scheme);
             return SignOut(new AuthenticationProperties { RedirectUri = callbackUrl },
                 CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
-        }
-
-        [HttpGet]
-        public IActionResult SignedOut()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                // Redirect to home page if the user is authenticated.
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-
-            return View();
         }
     }
 }
